@@ -1,0 +1,373 @@
+* {
+    font-family: 'Roboto', sans-serif;
+    color: #4c1daa;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.overlay {
+    position: fixed;
+    background-image: url(../img/carbon.jpg);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transition: transform 0.6s ease-in;
+}
+
+.overlay-full.off {
+    display: none;    
+}
+
+.overlay-top-left {
+    background-image: none;
+    right: 50%;
+    bottom: 50%;
+    border-width: 0 3px 3px 0;
+}
+
+.overlay-top-left.off {
+    background-image: url(../img/carbon.jpg);
+    border-color: #4c1daaaa;
+    border-style: solid;
+    transform: translate(-100%, -100%);
+}
+
+.overlay-top-right {
+    background-image: none;
+    left: 50%;
+    bottom: 50%;
+    border-width: 0 0 3px 3px;
+}
+
+.overlay-top-right.off {
+    background-image: url(../img/carbon.jpg);
+    border-color: #4c1daaaa;
+    border-style: solid;
+    transform: translate(100%, -100%);
+}
+
+.overlay-bottom-left {
+    background-image: none;
+    right: 50%;
+    top: 50%;    
+    border-width: 3px 3px 0 0;
+}
+
+.overlay-bottom-left.off {
+    background-image: url(../img/carbon.jpg);
+    border-color: #4c1daaaa;
+    border-style: solid;
+    transform: translate(-100%, 100%);
+}
+
+.overlay-bottom-right {
+    background-image: none;
+    left: 50%;
+    top: 50%;
+    border-width: 3px 0 0 3px;
+}
+
+.overlay-bottom-right.off {
+    background-image: url(../img/carbon.jpg);
+    border-color: #4c1daaaa;
+    border-style: solid;
+    transform: translate(100%, 100%);
+}
+
+.overlay-header {
+    top: -2px;
+    left: 50%;
+    right: unset;
+    bottom: unset;
+    font-size: 2.5rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transform: translate(-50%, 0);
+    padding: 1.5rem 1rem;
+    background-color: #ffffffcc;
+    background-image: none;
+    border-radius: 0 0 1rem 1rem;
+    border-color: cornflowerblue;
+    box-shadow: 0 0 3px 8px #6495edaa;
+}
+
+.overlay-header.off {
+    transform: translate(-50%, calc(-100% - 10px));
+}
+
+.overlay-header p {
+    margin: 0;
+}
+
+.overlay h2 {
+    margin: auto;
+    font-size: 2.2rem;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 1.5rem 1rem;
+    background-color: #ffffffcc;
+    border-radius: 1rem;
+    border-color: cornflowerblue;
+    box-shadow: 0 0 3px 8px #6495edaa;
+}
+
+.overlay-footer {
+    top: unset;
+    left: 50%;
+    right: unset;
+    white-space: nowrap;
+    bottom: -2px;
+    transform: translate(-50%, 0);
+    padding: 0.75rem 1.25rem;
+    background-color: #ffffffcc;
+    background-image: none;
+    border-radius: 1rem 1rem 0 0;
+    border-color: cornflowerblue;
+    box-shadow: 0 0 3px 8px #6495edaa;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 0.25rem;
+} 
+ 
+.overlay-footer.off {
+    transition: transform 1s ease-in;
+    transform: translate(-50%, calc(100% + 10px));
+}
+
+.overlay-footer p {
+    margin: 0;
+    font-size: 110%;
+}
+
+.overlay-footer a {
+    margin: 0 0.5rem;
+}
+
+.overlay-footer div {
+    margin-left: 0.5rem;
+}
+
+.overlay-footer div a {
+    margin: 0;
+}
+
+.first-letter {
+    font-size: 120%;
+    color: cornflowerblue;
+}
+
+.my-name {
+    margin: 0;
+    text-align: right;
+    font-size: 1.5rem;
+}
+
+.btn-overlay {
+    position: fixed;
+    display: block;
+    left: 50%;
+    top: 50%;
+    right: unset;
+    bottom: unset;
+    transform: translate(-50%,-50%) scale(1, 1);
+    font-size: 3rem;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    box-shadow: 0 0 20px 10px #4c1daa;
+    background-image: url(../img/carbon.jpg);
+    background-color: #4c1daa70;
+    transition: all 0.3s;
+    text-shadow: 3px 3px darkslateblue;
+}
+
+.btn-overlay.off {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.btn-overlay:focus {
+    outline: none;
+}
+
+.btn-overlay:hover {
+    box-shadow: 0 0 20px 10px white;
+    background-color: #4c1daaaa;
+    color: white;    
+    transform: translate(-50%,-50%) scale(1.1, 1.1);
+}
+
+.overlay-arrow {
+    width: 120px;
+    height: 120px;
+    position: fixed;
+    transition: all 0.5s;
+    right: unset;
+    bottom: unset;
+    background: none;
+    border: none;
+}
+
+.overlay-arrow-right {
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.overlay-arrow-right.off {
+    left: 125%;
+}
+
+.overlay-arrow-bottom {
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%,-50%) rotate(90deg);
+}
+
+.overlay-arrow-bottom.off {
+    top: 125%;
+}
+
+.overlay-arrow-left {
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%,-50%) rotate(180deg);
+}
+
+.overlay-arrow-left.off {
+    left: -25%;
+}
+
+.overlay-arrow-top {
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%,-50%) rotate(-90deg);
+}
+
+.overlay-arrow-top.off {
+    top: -25%;
+}
+
+.world {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toolbar {
+    position: fixed;
+    left: 50%;
+    top: -1px;
+    background: white;
+    padding: 0.5rem;
+    border: 1px solid #4c1daa;
+    transform: translate(-50%, 0);
+    color: #4c1daa;
+    flex-wrap: nowrap;
+}
+
+#toggleToolbarButton {
+    position: fixed;
+    left: 50%;
+    top: 0;
+    background: #4c1daa;
+    transform: translate(-50%,0);
+    width: 48px;
+    height: 14px;
+    cursor: pointer;
+    border-width: 0 1px 1px 1px;
+    border-style: solid;
+    border-color: #4c1daa;
+    background-image: url(../img/up-down.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#toggleToolbarButton:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.recording-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.dropdown-menu {
+    border: 1px solid #4c1daa;
+    padding: 0.25rem 0.75rem;
+}
+
+.toolbar .btn {
+    border-radius: 0;
+    border: 1px dashed #4c1daa;
+    margin: 0 0.25rem;
+}
+
+.toolbar .btn:not(:disabled):hover {    
+    border: 2px solid #4c1daa;
+    margin: -1px calc(0.25rem - 1px);
+}
+
+.toolbar .btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.toolbar .btn.on {
+    border-style: solid;
+    box-shadow: 0px 0px 6px 3px #4c1daa;
+}
+
+@keyframes blink {
+  from {opacity: 1;}
+  to {opacity:0;}
+}
+
+#recording.on img {
+    animation: blink normal 1s infinite linear;
+}
+
+.toolbar .separator {
+    background: #4c1daa;
+    width: 3px;
+    align-self: stretch;
+    margin: 0.25rem 0;
+}
+
+.btn-primary {
+    background-color: #4c1daa;
+    border-color: #4c1daa;
+}
+
+.btn-primary:disabled {
+    background-color: #6223df;
+    border-color: #6223df;
+}
+
+.modal-footer,.modal-body {
+    padding: 0.5rem 0.75rem;
+}
+
+#loadModelModal .modal-content {
+    padding: 0.75rem;
+}

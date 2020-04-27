@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Car Playground</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="js/matter.min.js"></script>
+    <script src="js/raycast.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.14.2/dist/tf.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
+</head>
+<body>
+    <div class="world"></div>
+    <nav class="nav toolbar">
+        <button id="reset" class="btn" title="Randomize car position"><img src="img/reset.png"></button>
+        <button id="explosion" class="btn" title="Chaotically shuffle all obstacles"><img src="img/explosion.png"></button>
+        <div class="separator"></div>
+        <button id="sensors" class="btn" title="Toggle car sensors"><img src="img/sensor.png"></button>
+        <button id="spotlight" class="btn" title="Toggle spotlight mode"><img src="img/spotlight.png"></button>
+        <button id="trace" class="btn on" title="Toggle trace"><img src="img/trace.png"></button>
+        <button id="move" class="btn" title="Run auto-movement"><img src="img/move.png"></button>
+        <div class="separator"></div>
+        <button id="recording" class="btn" title="Start/pause/resume recording of user actions"><img src="img/recording.png"></button>
+        <div class="recording-container">
+            <button id="applyModel" class="btn" title="Train car based on current recording"><img src="img/apply.png"></button>
+            <button id="discardModel" class="btn" title="Forget everything and start from scratch"><img src="img/remove.png"></button>
+        </div>      
+        <button id="saveModel" class="btn" title="Save car and training data"><img src="img/download.png"></button>
+        <button id="loadModel" class="btn" title="Load car and training data"><img src="img/upload.png"></button>
+        <div class="separator"></div>
+        <button id="help" class="btn" title="Help &amp; about"><img src="img/information.png"></button>
+    </nav>
+    <button id="toggleToolbarButton"></button>
+
+    <div class="overlay overlay-full"></div>
+
+    <div class="overlay overlay-top-left">
+        <h2>1. <span class="first-letter">B</span>uild a world full of obstacles</h2>
+    </div>
+    <div class="overlay overlay-top-right">
+        <h2>2. <span class="first-letter">S</span>tart recording your car actions</h2>
+    </div>
+    <div class="overlay overlay-bottom-right">
+        <h2>3. <span class="first-letter">L</span>et the car learn these actions</h2>
+    </div>
+    <div class="overlay overlay-bottom-left">
+        <h2>4. <span class="first-letter">T</span>urn the autopilot on and watch it</h2>
+    </div>
+
+    <div class="overlay overlay-header">
+        <p><span class="first-letter">S</span>elf-driving Car Training Ground</p>
+    </div>
+
+    <footer class="overlay overlay-footer">
+        <p class="my-credit">Designed and developed by Andrei Chaplygin</p>
+        <a href="https://github.com/Demarsch" target="_blank" title="Find me on GitHub"><img src="img/github.png"></a>
+        <a href="https://www.linkedin.com/in/andrei-chaplygin/" target="_blank" title="Connect with me on LinkedIn"><img src="img/linkedin.png"></a>
+        <a href="https://stackoverflow.com/users/1531189/demarsch" target="_blank" title="Check my profile on StackOverflow"><img src="img/stack-overflow.png"></a>
+        <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+        <a target="_blank" href="https://www.brusheezy.com/">Photoshop brushes by Brusheezy!</a>
+    </footer>
+
+    <img class="overlay overlay-arrow overlay-arrow-right" src="img/arrow.svg">
+    <img class="overlay overlay-arrow overlay-arrow-bottom" src="img/arrow.svg">
+    <img class="overlay overlay-arrow overlay-arrow-left" src="img/arrow.svg">
+    <img class="overlay overlay-arrow overlay-arrow-top" src="img/arrow.svg">
+
+    <button class="overlay btn btn-overlay">Get me behind the wheel!</button>
+
+    <div id="progressModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated w-100" role="progressbar"></div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <div id="saveModelModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+                <input class="form-control" type="text" placeholder="Enter name of the car">
+            </div>
+            <div class="modal-footer">
+                <button id="confirmSaveModel" type="button" class="btn btn-primary" data-dismiss="modal" disabled="true">Download</button>
+                <button id="cancelSaveModel" type="button" class="btn btn-secondary">Cancel</button>
+              </div>
+          </div>
+        </div>
+    </div>
+    
+    <div id="loadModelModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="form-group">
+                <label for="loadModelFileInput">Model file (&lt;Your Car&gt;.json)</label>
+                <input type="file" class="form-control-file" id="loadModelFileInput">
+            </div>
+            <div class="form-group">
+                <label for="loadWeightsFileInput">Weights file (&lt;Your Car&gt;.weights.bin)</label>
+                <input type="file" class="form-control-file" id="loadWeightsFileInput">
+            </div>
+            <div class="form-group">
+                <label for="loadTrainingDataFileInput">(optional) Trainig data file (&lt;Your Car&gt;.training-data.json)</label>
+                <input type="file" class="form-control-file" id="loadTrainingDataFileInput">
+            </div>
+            <div class="modal-footer">
+                <button id="confirmLoadModel" type="button" class="btn btn-primary" data-dismiss="modal" disabled="true">Load</button>
+                <button id="cancelLoadModel" type="button" class="btn btn-secondary">Cancel</button>
+              </div>
+          </div>
+        </div>
+    </div>
+</body>
+<script src="js/car.js"></script>
+<script src="js/TrainingData.js"></script>
+<script src="js/app.js"></script>
+</html>
