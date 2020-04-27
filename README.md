@@ -2,7 +2,7 @@
 
 ## Appetizer
 
-Live environment can be found [here](https://demarsch.github.io/self-driving-car-sim/)
+Live environment can be found [here](https://arfaiqbal.github.io/Self-driven-car-/)
 
 ![Self-driving car](demo.gif)
 
